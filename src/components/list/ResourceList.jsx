@@ -38,7 +38,7 @@ const ResourceList = ({ headerText, data, getData, createResource }) => {
                 <input
                   type="text"
                   className="input"
-                  placeholder={`Enter new${headerText === "Tags" ? "tag" : "category"}...`}
+                  placeholder={`Enter new ${headerText === "Tags" ? "tag" : "category"}...`}
                   value={newResource}
                   onChange={({ target: { value } }) => { setNewResource(value) }}
                   required
