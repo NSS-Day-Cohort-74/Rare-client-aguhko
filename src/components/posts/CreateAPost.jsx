@@ -1,30 +1,30 @@
 import { useEffect, useRef, useState } from "react"
-import { HumanDate } from "../utils/HumanDate"
 import { PostPost } from "../../managers/PostServices"
-
+import { getAllCategories } from "../../managers/CategoryManager"
+import { eventWrapper } from "@testing-library/user-event/dist/utils"
 export const CreateAPost = ({token}) => {
+    const [allCategories, setAllCategories]  = useState([])
     const [category, setCategory] = useState(0)
     const userId = token
-    const categoryId = category
     const title = useRef()
     const image = useRef()
     const content = useRef()
-    const approved = false
+    const approved = 0
 
     useEffect(() => {
-        // Waiting for fetch calls to be made for category objects
+        getAllCategories().then((res) => setAllCategories(res))
     }, [])
 
-    // useEffect(() => {
-    //     const date = new Date()
-    //     const year = date.getFullYear()
-    // }, [])
+    const handleCategorySelect = (event) => {
+        setCategory(parseInt(event.target.value))
+    }
+
     const handlePostSubmission = (event) => {
         event.preventDefault()
         if(userId != 0 && content !="") {
             const postForm = {
                 user_id: userId,
-                category_id: categoryId,
+                category_id: category,
                 title: title.current.value,
                 publication_date: new Date(),
                 image_url: image.current.value,
@@ -48,10 +48,16 @@ export const CreateAPost = ({token}) => {
             <textarea type="text" placeholder="Article Content" ref={content}/>
         </fieldset>
         <fieldset>
-            {/* Placeholder until categories are created */}
-            <select>
+            {allCategories 
+            ?
+            <select onChange={handleCategorySelect}>
                 <option value="0">Category Select</option>
+                {allCategories.map((category) => {
+                    return <option value={category.id} key={category.id}>{category.label}</option>
+                })}
             </select>
+            : ""}
+
         </fieldset>
         <button onClick={handlePostSubmission}>
             Publish
