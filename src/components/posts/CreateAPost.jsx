@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { PostPost } from "../../managers/PostServices"
 import { getAllCategories } from "../../managers/CategoryManager"
-import { eventWrapper } from "@testing-library/user-event/dist/utils"
 export const CreateAPost = ({token}) => {
     const [allCategories, setAllCategories]  = useState([])
     const [category, setCategory] = useState(0)
@@ -20,7 +19,8 @@ export const CreateAPost = ({token}) => {
 
     const handlePostSubmission = (event) => {
         event.preventDefault()
-        if(userId != 0 && content !="") {
+
+        if(userId !== 0 && content !== "") {
             const postForm = {
                 user_id: userId,
                 category_id: category,
@@ -35,30 +35,37 @@ export const CreateAPost = ({token}) => {
     }
 
     return <>
-    <form>
-        <h1>New Post</h1>
-        <fieldset>
-            <input type="text" placeholder="Title" ref={title}/>
+    <form className="box">
+        <h1 className="title">New Post</h1>
+        <fieldset className="field">
+            <input className="input" type="text" placeholder="Title" ref={title}/>
         </fieldset>
-        <fieldset>
-            <input type="text" placeholder="ImageURL" ref={image}/>
+        <fieldset className="field">
+            <input className="input" type="text" placeholder="ImageURL" ref={image}/>
         </fieldset>
-        <fieldset>
-            <textarea type="text" placeholder="Article Content" ref={content}/>
+        <fieldset className="field">
+            <textarea className="textarea" type="text" placeholder="Article Content" ref={content}/>
         </fieldset>
-        <fieldset>
+        <fieldset className="field">
             {allCategories 
             ?
-            <select onChange={handleCategorySelect}>
+          <div
+          className="select"
+          >
+            <select 
+            onChange={handleCategorySelect}>
                 <option value="0">Category Select</option>
                 {allCategories.map((category) => {
                     return <option value={category.id} key={category.id}>{category.label}</option>
                 })}
             </select>
+            </div>
             : ""}
 
         </fieldset>
-        <button onClick={handlePostSubmission}>
+        <button
+        className="button is-primary"
+        onClick={handlePostSubmission}>
             Publish
         </button>
     </form>
