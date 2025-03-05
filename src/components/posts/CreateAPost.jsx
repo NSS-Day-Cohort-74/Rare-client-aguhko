@@ -9,7 +9,6 @@ export const CreateAPost = ({token}) => {
     const title = useRef()
     const image = useRef()
     const content = useRef()
-    const approved = 0
 
     useEffect(() => {
         getAllCategories().then((res) => setAllCategories(res))
@@ -29,7 +28,7 @@ export const CreateAPost = ({token}) => {
                 publication_date: new Date(),
                 image_url: image.current.value,
                 content: content.current.value,
-                approved: approved
+                approved: true
             }
             PostPost(postForm)
         }
