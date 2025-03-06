@@ -32,7 +32,13 @@ export const PostList = ({token}) => {
         }
     }, [token])
 
+    const handleDeletePost = (event) => {
+        console.log("Post Deleted!")
+    }
 
+    const handleEditPost = (event) => {
+        console.log("Navigating to post editing!")
+    }
     return (
         <div>
             {posts.map((post) => {
@@ -47,7 +53,9 @@ export const PostList = ({token}) => {
                 console.log(relatedTags.map(tag => tag.label))
 
                 return (
-                    <div key={post.id}>
+                    <>
+                    {token 
+                    ? <div key={post.id}>
                         <div>
                             <div>Title</div>
                             <div>{post.title}</div>
@@ -59,7 +67,23 @@ export const PostList = ({token}) => {
                             <div>Tags</div>
                             <div>{ relatedTags ? relatedTags.map(tag => tag.label).join(", ") : ""}</div>
                         </div>
+                        <button onClick={handleDeletePost}>Delete</button>
+                        <button onClick={handleEditPost}>Edit</button>
                     </div>
+                    : <div key={post.id}>
+                        <div>
+                            <div>Title</div>
+                            <div>{post.title}</div>
+                            <div>Author</div>
+                            <div>Date</div>
+                            <div>{post.publication_date}</div>
+                            <div>Category</div>
+                            <div>{postCategory ? postCategory.label : ""}</div>
+                            <div>Tags</div>
+                            <div>{ relatedTags ? relatedTags.map(tag => tag.label).join(", ") : ""}</div>
+                        </div>
+                    </div>}
+                        </>
                 );
             })}
         </div>
