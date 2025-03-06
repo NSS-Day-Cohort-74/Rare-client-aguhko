@@ -2,9 +2,10 @@ import { useEffect, useState } from "react"
 import { getAllPosts, getAllPostTags } from "../../managers/PostManager"
 import { getAllCategories } from "../../managers/CategoryManager"
 import { getAllTags } from "../../managers/TagManager"
+import { getPostsByUserId } from "../../managers/PostServices"
 
 
-export const PostList = () => {
+export const PostList = ({token}) => {
     const [posts, setPosts] = useState([])
     const [categories, setCategories] = useState([])
     const [tags, setTags] = useState([])
@@ -12,19 +13,24 @@ export const PostList = () => {
     const [testing, setTesting] = useState([])
 
     useEffect(() => {
-        getAllPosts().then(postsArray => {
-            setPosts(postsArray)
-        })
-        getAllCategories().then(categoriesArray => {
-            setCategories(categoriesArray)
-        })
-        getAllTags().then(tagsArray => {
-            setTags(tagsArray)
-        })
-        getAllPostTags().then(postTagsArray => {
-            setPostTags(postTagsArray)
-        })
-    }, [])
+        if (token) {
+            getPostsByUserId(token).then((postArray) => setPosts(postArray))
+        }
+        else {
+            getAllPosts().then(postsArray => {
+                setPosts(postsArray)
+            })
+            getAllCategories().then(categoriesArray => {
+                setCategories(categoriesArray)
+            })
+            getAllTags().then(tagsArray => {
+                setTags(tagsArray)
+            })
+            getAllPostTags().then(postTagsArray => {
+                setPostTags(postTagsArray)
+            })
+        }
+    }, [token])
 
 
     return (
