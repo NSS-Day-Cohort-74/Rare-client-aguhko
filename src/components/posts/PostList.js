@@ -46,7 +46,6 @@ export const PostList = () => {
                             <div>Title</div>
                             <div>{post.title}</div>
                             <div>Author</div>
-                            <div>{post.favoriteMoment}</div>
                             <div>Date</div>
                             <div>{post.publication_date}</div>
                             <div>Category</div>
