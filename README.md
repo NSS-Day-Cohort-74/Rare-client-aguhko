@@ -30,7 +30,8 @@ This is where our users will be able to being publishing their own original cont
 ## Tag Management
 
 This component is a list of available tags that a user may append to their post. (Though the functionality has not yet been created for this.) At the moment, new tags can be created here. 
-![image](https://github.com/user-attachments/assets/1419f042-69ff-4958-b90b-9f595124e2d0)
+![image](https://github.com/user-attachments/assets/780011c9-34bb-4d54-9881-c2251354b797)
+
 
 ## Category Management
 
