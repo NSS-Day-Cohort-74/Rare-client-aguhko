@@ -49,7 +49,9 @@ export const PostList = () => {
                 <div className="title">{post.title}</div>
                 <div>Author</div>
                 <div>Date</div>
-                <div>{HumanDate(post.publication_date.split("T")[0])}</div>
+                <div>
+                  <HumanDate date={post.publication_date.split("T")[0]} />{" "}
+                </div>
                 <div>Category</div>
                 <div>{postCategory ? postCategory.label : ""}</div>
               </div>
