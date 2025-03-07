@@ -3,14 +3,15 @@ import { getAllPosts, getAllPostTags } from "../../managers/PostManager"
 import { getAllCategories } from "../../managers/CategoryManager"
 import { getAllTags } from "../../managers/TagManager"
 import { getPostsByUserId } from "../../managers/PostServices"
-
+import { getAllUsers } from "../../managers/UserManager"
 
 export const PostList = ({token}) => {
     const [posts, setPosts] = useState([])
     const [categories, setCategories] = useState([])
     const [tags, setTags] = useState([])
     const [postTags, setPostTags] = useState([])
-    const [testing, setTesting] = useState([])
+    const [users, setUsers] = useState([])
+    const [filterCategory, setFilteredCategory] = useState(posts);
 
     useEffect(() => {
         if (token) {
@@ -29,8 +30,15 @@ export const PostList = ({token}) => {
             getAllPostTags().then(postTagsArray => {
                 setPostTags(postTagsArray)
             })
+            getAllUsers().then(usersArray => {
+                setUsers(usersArray)
+            })
         }
     }, [token])
+
+    useEffect(() => {
+        setFilteredCategory(posts);
+    }, [posts]);
 
     const handleDeletePost = (event) => {
         console.log("Post Deleted!")
@@ -39,9 +47,28 @@ export const PostList = ({token}) => {
     const handleEditPost = (event) => {
         console.log("Navigating to post editing!")
     }
+
+    const handleFormChange = (event) => {
+        if(event.target.value === "default"){
+            setFilteredCategory(posts)
+        } else{
+            let filteredPost = posts.filter(post => post.category_id === parseInt(event.target.value))
+            setFilteredCategory(filteredPost)            
+        }
+    }
+
     return (
         <div>
-            {posts.map((post) => {
+            <select className="input-field" onChange={handleFormChange}>
+                    <option value="default">Prompt to select resource...</option>
+                    {categories.map((category) => {
+                        return (
+                            <option key={category.id} value={category.id}>{category.label}</option>
+                        )
+                    })}
+                </select>
+                    
+            {filterCategory.map((post) => {
 
                 let postCategory = categories.find(category => category.id === post.category_id)
 
@@ -50,8 +77,9 @@ export const PostList = ({token}) => {
                 let relatedTags = postTagArr.flatMap(postTag =>
                     tags.filter(tag => tag.id === postTag.tag_id)
                 );
-                console.log(relatedTags.map(tag => tag.label))
 
+                let postUser = users.find(user => user.id === post.user_id)
+                
                 return (
                     <>
                     {token 
@@ -75,6 +103,7 @@ export const PostList = ({token}) => {
                             <div>Title</div>
                             <div>{post.title}</div>
                             <div>Author</div>
+                            <div>{postUser?.first_name}</div>
                             <div>Date</div>
                             <div>{post.publication_date}</div>
                             <div>Category</div>
