@@ -4,7 +4,8 @@ import { getAllCategories } from "../../managers/CategoryManager"
 import { getAllTags } from "../../managers/TagManager"
 import { getPostsByUserId } from "../../managers/PostServices"
 import { getAllUsers } from "../../managers/UserManager"
-
+import { HumanDate } from "../utils/HumanDate"
+import "../../Rare.css"
 export const PostList = ({token}) => {
     const [posts, setPosts] = useState([])
     const [categories, setCategories] = useState([])
@@ -14,25 +15,20 @@ export const PostList = ({token}) => {
     const [filterCategory, setFilteredCategory] = useState(posts);
 
     useEffect(() => {
+        getAllPosts().then(postsArray => {
+            setPosts(postsArray)
+        })
+        getAllCategories().then(categoriesArray => {
+            setCategories(categoriesArray)
+        })
+        getAllTags().then(tagsArray => {
+            setTags(tagsArray)
+        })
+        getAllPostTags().then(postTagsArray => {
+            setPostTags(postTagsArray)
+        })
         if (token) {
             getPostsByUserId(token).then((postArray) => setPosts(postArray))
-        }
-        else {
-            getAllPosts().then(postsArray => {
-                setPosts(postsArray)
-            })
-            getAllCategories().then(categoriesArray => {
-                setCategories(categoriesArray)
-            })
-            getAllTags().then(tagsArray => {
-                setTags(tagsArray)
-            })
-            getAllPostTags().then(postTagsArray => {
-                setPostTags(postTagsArray)
-            })
-            getAllUsers().then(usersArray => {
-                setUsers(usersArray)
-            })
         }
     }, [token])
 
@@ -58,9 +54,9 @@ export const PostList = ({token}) => {
     }
 
     return (
-        <div>
-            <select className="input-field" onChange={handleFormChange}>
-                    <option value="default">Prompt to select resource...</option>
+        <div key="container">
+            <select className="ml-3 control" onChange={handleFormChange}>
+                    <option key="0" value="default">All Categories...</option>
                     {categories.map((category) => {
                         return (
                             <option key={category.id} value={category.id}>{category.label}</option>
@@ -80,42 +76,51 @@ export const PostList = ({token}) => {
 
                 let postUser = users.find(user => user.id === post.user_id)
                 
+                // Shared component, used for Post List and My Posts components. 
                 return (
-                    <>
+                    <div key={post.id}>
+                        {/* First returns expression. Displays current user's posts at My Posts */}
                     {token 
-                    ? <div key={post.id}>
-                        <div>
-                            <div>Title</div>
-                            <div>{post.title}</div>
-                            <div>Author</div>
-                            <div>Date</div>
-                            <div>{post.publication_date}</div>
-                            <div>Category</div>
-                            <div>{postCategory ? postCategory.label : ""}</div>
-                            <div>Tags</div>
-                            <div>{ relatedTags ? relatedTags.map(tag => tag.label).join(", ") : ""}</div>
-                        </div>
-                        <button onClick={handleDeletePost}>Delete</button>
-                        <button onClick={handleEditPost}>Edit</button>
+                    ? <div className="card mb-3 p-2">
+                    {/* Second statement returns all posts, there is no token being accepted in this view. */}
+                <div className="title">{post.title}</div>
+                <section className="mx-4 level is-size-4">{postCategory ? postCategory.label : ""}
+                    <div className="is-size-6">{<HumanDate date={post.publication_date.split("T")[0]} />}</div>
+                </section>
+                    <div className="image_container">
+                        <img className="image" src={post.image_url} alt="placeholder" />
+                </div>
+                <footer className="level">
+                    <div className="ml-4">Author</div>
+                    <div>{ relatedTags ? relatedTags.map(tag => tag.label).join(", ") : ""}</div>
+                <div className="is-pulled-right">
+                    <button className="button is-primary" onClick={handleEditPost}><i className="fa-solid fa-edit"></i></button>
+                    <button className="button is-danger" onClick={handleDeletePost}><i className="fa-solid fa-trash-can"></i></button>
+                </div >
+                </footer>
+        </div>
+                    : <div className="card mb-3 p-2">
+                        {/* Second statement returns all posts, there is no token being accepted in this view. */}
+                    <div className="title">{post.title}</div>
+                    <section className="mx-4 level is-size-4">{postCategory ? postCategory.label : ""}
+                        <div className="is-size-6">{<HumanDate date={post.publication_date.split("T")[0]} />}</div>
+                    </section>
+                        <div className="image_container">
+                            <img className="image" src={post.image_url} alt="placeholder" />
                     </div>
-                    : <div key={post.id}>
-                        <div>
-                            <div>Title</div>
-                            <div>{post.title}</div>
-                            <div>Author</div>
-                            <div>{postUser?.first_name}</div>
-                            <div>Date</div>
-                            <div>{post.publication_date}</div>
-                            <div>Category</div>
-                            <div>{postCategory ? postCategory.label : ""}</div>
-                            <div>Tags</div>
-                            <div>{ relatedTags ? relatedTags.map(tag => tag.label).join(", ") : ""}</div>
-                        </div>
-                    </div>}
-                        </>
+                    <footer className="level">
+                        <div className="ml-4">Author</div>
+                        <div>{ relatedTags ? relatedTags.map(tag => tag.label).join(", ") : ""}</div>
+                    <div className="is-pulled-right">
+                        <button className="button is-primary" onClick={handleEditPost}><i className="fa-solid fa-edit"></i></button>
+                        <button className="button is-danger" onClick={handleDeletePost}><i className="fa-solid fa-trash-can"></i></button>
+                    </div >
+                    </footer>
+            </div>}
+        </div>
                 );
             })}
-        </div>
+    </div>
     )
 }
 
