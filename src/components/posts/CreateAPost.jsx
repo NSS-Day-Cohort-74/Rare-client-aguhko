@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react"
 import { PostPost } from "../../managers/PostServices"
 import { getAllCategories } from "../../managers/CategoryManager"
+import { useNavigate } from "react-router-dom"
 export const CreateAPost = ({token}) => {
+    const navigate = useNavigate()
     const [allCategories, setAllCategories]  = useState([])
     const [category, setCategory] = useState(0)
     const userId = token
@@ -30,7 +32,7 @@ export const CreateAPost = ({token}) => {
                 content: content.current.value,
                 approved: true
             }
-            PostPost(postForm)
+            PostPost(postForm).then((createdPost) => navigate(`/posts/${createdPost.id}`))
         }
     }
 
