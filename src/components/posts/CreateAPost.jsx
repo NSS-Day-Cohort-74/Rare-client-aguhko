@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { PostPost } from "../../managers/PostServices";
 import { getAllCategories } from "../../managers/CategoryManager";
 
+import { useNavigate } from "react-router-dom"
 export const CreateAPost = ({ token }) => {
+    const navigate = useNavigate()
   const [publishDisabled, setPublishDisabled] = useState(true);
   const [allCategories, setAllCategories] = useState([]);
   const userId = parseInt(token);
