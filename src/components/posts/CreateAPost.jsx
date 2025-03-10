@@ -1,73 +1,117 @@
-import { useEffect, useRef, useState } from "react"
-import { PostPost } from "../../managers/PostServices"
-import { getAllCategories } from "../../managers/CategoryManager"
-export const CreateAPost = ({token}) => {
-    const [allCategories, setAllCategories]  = useState([])
-    const [category, setCategory] = useState(0)
-    const userId = token
-    const title = useRef()
-    const image = useRef()
-    const content = useRef()
+import { useEffect, useState } from "react";
+import { PostPost } from "../../managers/PostServices";
+import { getAllCategories } from "../../managers/CategoryManager";
 
-    useEffect(() => {
-        getAllCategories().then((res) => setAllCategories(res))
-    }, [])
+export const CreateAPost = ({ token }) => {
+  const [publishDisabled, setPublishDisabled] = useState(true);
+  const [allCategories, setAllCategories] = useState([]);
+  const userId = parseInt(token);
 
-    const handleCategorySelect = (event) => {
-        setCategory(parseInt(event.target.value))
+  const [newPost, setNewPost] = useState({
+    user_id: userId,
+    category_id: 0,
+    title: "",
+    publication_date: new Date(),
+    image_url: "",
+    content: "",
+    approved: true,
+  });
+
+  useEffect(() => {
+    getAllCategories().then((res) => setAllCategories(res));
+  }, []);
+
+  useEffect(() => {
+    const shouldDisable = !(
+      newPost.title &&
+      newPost.content &&
+      newPost.category_id
+    );
+    setPublishDisabled(shouldDisable);
+  }, [newPost.category_id, newPost.content, newPost.title]);
+
+  const handlePostSubmission = (event) => {
+    event.preventDefault();
+
+    if (userId !== 0 && newPost.content) {
+      PostPost({
+        ...newPost,
+      });
     }
+  };
 
-    const handlePostSubmission = (event) => {
-        event.preventDefault()
-
-        if(userId !== 0 && content !== "") {
-            const postForm = {
-                user_id: userId,
-                category_id: category,
-                title: title.current.value,
-                publication_date: new Date(),
-                image_url: image.current.value,
-                content: content.current.value,
-                approved: true
-            }
-            PostPost(postForm)
-        }
-    }
-
-    return <>
-    <form className="box">
+  return (
+    <>
+      <form className="box">
         <h1 className="title">New Post</h1>
         <fieldset className="field">
-            <input className="input" type="text" placeholder="Title" ref={title}/>
+          <input
+            className="input"
+            type="text"
+            placeholder="Title"
+            onChange={({ target: { value } }) => {
+              setNewPost({
+                ...newPost,
+                title: value.trim(),
+              });
+            }}
+          />
         </fieldset>
         <fieldset className="field">
-            <input className="input" type="text" placeholder="ImageURL" ref={image}/>
+          <input
+            className="input"
+            type="text"
+            placeholder="Image URL"
+            onChange={({ target: { value } }) => {
+              setNewPost({
+                ...newPost,
+                image_url: value.trim(),
+              });
+            }}
+          />
         </fieldset>
         <fieldset className="field">
-            <textarea className="textarea" type="text" placeholder="Article Content" ref={content}/>
+          <textarea
+            className="textarea"
+            type="text"
+            placeholder="Article Content"
+            onChange={({ target: { value } }) => {
+              setNewPost({
+                ...newPost,
+                content: value.trim(),
+              });
+            }}
+          />
         </fieldset>
         <fieldset className="field">
-            {allCategories 
-            ?
-          <div
-          className="select"
-          >
-            <select 
-            onChange={handleCategorySelect}>
-                <option value="0">Category Select</option>
-                {allCategories.map((category) => {
-                    return <option value={category.id} key={category.id}>{category.label}</option>
-                })}
+          <div className="select">
+            <select
+              onChange={({ target: { value } }) => {
+                setNewPost({
+                  ...newPost,
+                  category_id: parseInt(value),
+                });
+              }}
+            >
+              <option value="0">Category Select</option>
+              {allCategories.map((category) => {
+                return (
+                  <option value={category.id} key={category.id}>
+                    {category.label}
+                  </option>
+                );
+              })}
             </select>
-            </div>
-            : ""}
-
+          </div>
         </fieldset>
         <button
-        className="button is-primary"
-        onClick={handlePostSubmission}>
-            Publish
+          disabled={publishDisabled}
+          className="button is-primary"
+          onClick={handlePostSubmission}
+        >
+          Publish
         </button>
-    </form>
+      </form>
     </>
-}
+  );
+};
