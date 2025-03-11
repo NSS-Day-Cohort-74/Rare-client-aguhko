@@ -7,24 +7,26 @@ import { Authorized } from "./Authorized";
 import { CreateAPost } from "../components/posts/CreateAPost";
 import { PostList } from "../components/posts/PostList";
 import UserList from "../components/user/UserList";
+import UserDetails from "../components/user/UserDetails";
 
 export const ApplicationViews = ({ token, setToken }) => {
   return (
-    <>
-      <Routes>
-        <Route path="/login" element={<Login setToken={setToken} />} />
-        <Route path="/register" element={<Register setToken={setToken} />} />
-        <Route element={<Authorized token={token} />}>
-          {/* Add Routes here */}
-          <Route path="/" />
-          <Route path="/my-posts" element={<PostList token={token} />} />
-          <Route path="/create" element={<CreateAPost token={token} />} />
-          <Route path="/tags" element={<TagList token={token} />} />
-          <Route path="/categories" element={<CategoryList token={token} />} />
-          <Route path="/posts" element={<PostList />} />
-          <Route path="/users" element={<UserList token={token} />} />
+    <Routes>
+      <Route path="/login" element={<Login setToken={setToken} />} />
+      <Route path="/register" element={<Register setToken={setToken} />} />
+      <Route element={<Authorized token={token} />}>
+        {/* Add Routes here */}
+        <Route path="/" />
+        <Route path="/my-posts" element={<PostList token={token} />} />
+        <Route path="/create" element={<CreateAPost token={token} />} />
+        <Route path="/tags" element={<TagList token={token} />} />
+        <Route path="/categories" element={<CategoryList token={token} />} />
+        <Route path="/posts" element={<PostList />} />
+        <Route path="/users">
+          <Route index element={<UserList token={token} />} />
+          <Route path=":userId" element={<UserDetails token={token} />} />
         </Route>
-      </Routes>
-    </>
+      </Route>
+    </Routes>
   );
 };
