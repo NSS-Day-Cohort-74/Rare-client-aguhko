@@ -41,8 +41,13 @@ export const PostList = ({ token }) => {
 
   const handleDeletePost = (event) => {
     event.preventDefault()
-    console.log(event.target.id)
-    deletePost(parseInt(event.target.id)).then(getAndSetPosts)
+    const deleteConfirmation = window.confirm("Are you sure that you want to delete this post?")
+    if (deleteConfirmation) {
+      deletePost(parseInt(event.target.id)).then(getAndSetPosts)
+    }
+    else {
+      window.alert("Your post was not deleted!")
+    }
   };
 
   const handleEditPost = () => {
@@ -116,9 +121,9 @@ export const PostList = ({ token }) => {
                       ? relatedTags.map((tag) => tag.label).join(", ")
                       : ""}
                   </div>
-                  <div className="is-pulled-right fa-solid fa-edit">
+                  <div className="is-pulled-right">
                     <button
-                      className="button is-primary"
+                      className="button is-primary fa-solid fa-edit"
                       id={post.id}
                       onClick={handleEditPost}
                     >
