@@ -14,3 +14,10 @@ export const PostPost = (postForm) => {
 export const getPostsByUserId = (userId) => {
     return fetch(`http://localhost:8088/posts?user_id=${userId}`).then((res) => res.json())
 }
+
+export const deletePost = (postId) => {
+    console.log(postId)
+    return fetch(`http://localhost:8088/posts/${postId}`, {
+        method: "DELETE"
+    })
+}

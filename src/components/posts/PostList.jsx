@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getAllPosts, getAllPostTags } from "../../managers/PostManager";
 import { getAllCategories } from "../../managers/CategoryManager";
 import { getAllTags } from "../../managers/TagManager";
-import { getPostsByUserId } from "../../managers/PostServices";
+import { deletePost, getPostsByUserId } from "../../managers/PostServices";
 
 import { HumanDate } from "../utils/HumanDate";
 import "../../Rare.css";
@@ -13,7 +13,7 @@ export const PostList = ({ token }) => {
   const [postTags, setPostTags] = useState([]);
   const [filterCategory, setFilteredCategory] = useState(posts);
 
-  useEffect(() => {
+  const getAndSetPosts = () => {
     getAllPosts().then((postsArray) => {
       setPosts(postsArray);
     });
@@ -29,14 +29,25 @@ export const PostList = ({ token }) => {
     if (token) {
       getPostsByUserId(token).then((postArray) => setPosts(postArray));
     }
-  }, [token]);
+  }
+
+  useEffect(() => {
+    getAndSetPosts()
+  }, [token])
 
   useEffect(() => {
     setFilteredCategory(posts);
   }, [posts]);
 
-  const handleDeletePost = () => {
-    console.log("Post Deleted!");
+  const handleDeletePost = (event) => {
+    event.preventDefault()
+    const deleteConfirmation = window.confirm("Are you sure that you want to delete this post?")
+    if (deleteConfirmation) {
+      deletePost(parseInt(event.target.id)).then(getAndSetPosts)
+    }
+    else {
+      window.alert("Your post was not deleted!")
+    }
   };
 
   const handleEditPost = () => {
@@ -112,16 +123,16 @@ export const PostList = ({ token }) => {
                   </div>
                   <div className="is-pulled-right">
                     <button
-                      className="button is-primary"
+                      className="button is-primary fa-solid fa-edit"
+                      id={post.id}
                       onClick={handleEditPost}
                     >
-                      <i className="fa-solid fa-edit"></i>
                     </button>
                     <button
-                      className="button is-danger"
+                      className="button is-danger fa-solid fa-trash-can"
+                      id={post.id}
                       onClick={handleDeletePost}
                     >
-                      <i className="fa-solid fa-trash-can"></i>
                     </button>
                   </div>
                 </footer>
