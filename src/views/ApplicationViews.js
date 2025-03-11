@@ -4,7 +4,7 @@ import { Register } from "../components/auth/Register";
 import { CategoryList } from "../components/list/CategoryList";
 import { TagList } from "../components/list/TagList";
 import { Authorized } from "./Authorized";
-import { CreateAPost } from "../components/posts/CreateAPost"
+import { CreateAPost } from "../components/posts/CreateAPost";
 import { PostList } from "../components/posts/PostList";
 import { PostDetails } from "../components/posts/PostDetails";
 
