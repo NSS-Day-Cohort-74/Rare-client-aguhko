@@ -14,3 +14,6 @@ export const PostPost = (postForm) => {
 export const getPostsByUserId = (userId) => {
     return fetch(`http://localhost:8088/posts?user_id=${userId}`).then((res) => res.json())
 }
+export const getPostsByPostId = (postId) => {
+    return fetch(`http://localhost:8088/posts?post_id=${postId}`).then((res) => res.json())
+}
