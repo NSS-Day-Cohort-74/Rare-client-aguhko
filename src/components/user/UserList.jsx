@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getAllUsers } from "../../managers/UserManager";
 
 const UserList = () => {
@@ -12,7 +13,7 @@ const UserList = () => {
   }, []);
 
   return (
-    <div className="box mx-4 ">
+    <div className="box mx-4">
       <div>
         <h1 className="ml-6 is-size-2">Users</h1>
       </div>
@@ -29,9 +30,11 @@ const UserList = () => {
             </thead>
             <tbody>
               {users.map(
-                ({ first_name, last_name, email, username }, index) => (
+                ({ id, first_name, last_name, email, username }, index) => (
                   <tr key={index}>
-                    <td>{username}</td>
+                    <td>
+                      <Link to={`/users/${id}`}>{username}</Link>
+                    </td>
                     <td>{first_name}</td>
                     <td>{last_name}</td>
                     <td>{email}</td>
@@ -47,19 +50,3 @@ const UserList = () => {
 };
 
 export default UserList;
-
-{
-  /*
-
-is - primary;
-is - link;
-is - info;
-is - success;
-is - warning;
-is - danger;
-is - black;
-is - dark;
-is - light;
-is - white;
-*/
-}
