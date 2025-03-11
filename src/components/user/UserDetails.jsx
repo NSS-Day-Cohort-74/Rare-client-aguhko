@@ -26,6 +26,10 @@ const UserDetails = () => {
             <strong>Creation date: </strong>
             {user?.created_on}
           </div>
+          <div>
+            <strong>Bio: </strong>
+            {user?.bio}
+          </div>
         </div>
       </div>
       <div className="column is-one-third">
