@@ -7,8 +7,8 @@ import { Authorized } from "./Authorized";
 import { CreateAPost } from "../components/posts/CreateAPost";
 import { PostList } from "../components/posts/PostList";
 import { PostDetails } from "../components/posts/PostDetails";
-import { PostDetails } from "../components/posts/PostDetails";
 import UserDetails from "../components/user/UserDetails";
+import UserList from "../components/user/UserList";
 
 export const ApplicationViews = ({ token, setToken }) => {
   return (
@@ -23,8 +23,8 @@ export const ApplicationViews = ({ token, setToken }) => {
         <Route path="/tags" element={<TagList token={token} />} />
         <Route path="/categories" element={<CategoryList token={token} />} />
         <Route path="posts">
-				<Route index element={<PostList />} />
-				<Route path=":postId" element={<PostDetails token={token} />} />
+				  <Route index element={<PostList />} />
+				  <Route path=":postId" element={<PostDetails token={token} />} />
 			</Route>
         <Route path="/users">
           		<Route index element={<UserList token={token} />} />

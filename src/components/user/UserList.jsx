@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllUsers } from "../../managers/UserManager";
 
-const UserList = () => {
+export const UserList = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
