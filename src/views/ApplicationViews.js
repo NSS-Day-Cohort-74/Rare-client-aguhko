@@ -6,6 +6,7 @@ import { TagList } from "../components/list/TagList";
 import { Authorized } from "./Authorized";
 import { CreateAPost } from "../components/posts/CreateAPost";
 import { PostList } from "../components/posts/PostList";
+import { PostDetails } from "../components/posts/PostDetails";
 import UserList from "../components/user/UserList";
 import UserDetails from "../components/user/UserDetails";
 
@@ -21,12 +22,15 @@ export const ApplicationViews = ({ token, setToken }) => {
         <Route path="/create" element={<CreateAPost token={token} />} />
         <Route path="/tags" element={<TagList token={token} />} />
         <Route path="/categories" element={<CategoryList token={token} />} />
-        <Route path="/posts" element={<PostList />} />
+        <Route path="posts">
+				<Route index element={<PostList />} />
+				<Route path=":postId" element={<PostDetails token={token} />} />
+			</Route>
         <Route path="/users">
-          <Route index element={<UserList token={token} />} />
-          <Route path=":userId" element={<UserDetails token={token} />} />
+          		<Route index element={<UserList token={token} />} />
+          		<Route path=":userId" element={<UserDetails token={token} />} />\
+			</Route>
         </Route>
-      </Route>
     </Routes>
   );
 };
