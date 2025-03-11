@@ -12,6 +12,7 @@ export const PostList = ({ token }) => {
   const [categories, setCategories] = useState([]);
   const [users, setUsers] = useState([]);
   const [filterCategory, setFilteredCategory] = useState(posts);
+  const [titleFilter, setTitleFilter] = useState("");
 
   const getAndSetPosts = () => {
     getAllPosts().then((postsArray) => {
@@ -31,8 +32,8 @@ export const PostList = ({ token }) => {
   };
 
   useEffect(() => {
-    getAndSetPosts()
-  }, [token])
+    getAndSetPosts();
+  }, [token]);
 
   useEffect(() => {
     setFilteredCategory(posts);
@@ -41,7 +42,7 @@ export const PostList = ({ token }) => {
   const handleDeletePost = (event) => {
     event.preventDefault();
     const deleteConfirmation = window.confirm(
-      "Are you sure that you want to delete this post?"
+      "Are you sure that you want to delete this post?",
     );
     if (deleteConfirmation) {
       deletePost(parseInt(event.target.id)).then(getAndSetPosts);
@@ -59,15 +60,29 @@ export const PostList = ({ token }) => {
       setFilteredCategory(posts);
     } else {
       let filteredPost = posts.filter(
-        (post) => post.category_id === parseInt(event.target.value)
+        (post) => post.category_id === parseInt(event.target.value),
       );
       setFilteredCategory(filteredPost);
     }
   };
+  const postsFilteredByTitle = filterCategory.filter(({ title }) =>
+    title.toLowerCase().includes(titleFilter.toLowerCase()),
+  );
 
   return (
     <div key="container">
-      <select className="ml-3 control" onChange={handleFormChange}>
+      <div className="mx-3 mb-2">
+        <input
+          type="text"
+          placeholder="Filter by title..."
+          value={titleFilter}
+          onChange={({ target: { value } }) => {
+            setTitleFilter(value);
+          }}
+          className="input"
+        />
+      </div>
+      <select className="ml-3 select" onChange={handleFormChange}>
         <option key="0" value="default">
           All Categories...
         </option>
@@ -80,9 +95,9 @@ export const PostList = ({ token }) => {
         })}
       </select>
 
-      {filterCategory.map((post) => {
+      {postsFilteredByTitle.map((post) => {
         let postCategory = categories.find(
-          (category) => category.id === post.category_id
+          (category) => category.id === post.category_id,
         );
 
         let postUser = users.find((user) => user.id === post.user_id);
