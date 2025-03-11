@@ -7,7 +7,7 @@ import { Authorized } from "./Authorized";
 import { CreateAPost } from "../components/posts/CreateAPost";
 import { PostList } from "../components/posts/PostList";
 import { PostDetails } from "../components/posts/PostDetails";
-import UserList from "../components/user/UserList";
+import { PostDetails } from "../components/posts/PostDetails";
 import UserDetails from "../components/user/UserDetails";
 
 export const ApplicationViews = ({ token, setToken }) => {
