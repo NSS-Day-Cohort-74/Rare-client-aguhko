@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getUser } from "../../managers/UserManager";
-import { createNewSubscription, getAllSubscriptions } from "../../managers/Subscriptions";
+import {
+  createNewSubscription,
+  getAllSubscriptions,
+} from "../../managers/Subscriptions";
+import { HumanDate } from "../../components/utils/HumanDate";
 
 const UserDetails = ({ token }) => {
   const [user, setUser] = useState();
   const [subscriptions, setSubscriptions] = useState([]);
   const [subscribed, setSubscribed] = useState(false);
   const { userId } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUser(userId).then((user) => setUser(user));
@@ -16,21 +20,20 @@ const UserDetails = ({ token }) => {
 
   const fetchSubscriptions = () => {
     getAllSubscriptions().then((subscriptionsArray) =>
-      setSubscriptions(subscriptionsArray)
-  );
-}
+      setSubscriptions(subscriptionsArray),
+    );
+  };
 
   useEffect(() => {
-    fetchSubscriptions()
-  }, [])
-
+    fetchSubscriptions();
+  }, []);
 
   useEffect(() => {
     // Does the current user have a relationship with the user they are viewing?
     const areYouSubscribed = subscriptions.find(
       (subscription) =>
         subscription.follower_id === parseInt(token) &&
-        subscription.author_id === user?.id
+        subscription.author_id === user?.id,
     );
     // Was a relationship found?
     if (areYouSubscribed != undefined) {
@@ -42,7 +45,7 @@ const UserDetails = ({ token }) => {
     // The unique id associated with a user is the id of their subscribe/unsubscribed button
     const subscriptionForm = {
       follower_id: parseInt(token),
-      author_id: user?.id
+      author_id: user?.id,
     };
     createNewSubscription(subscriptionForm).then(navigate("/"));
   };
@@ -61,7 +64,7 @@ const UserDetails = ({ token }) => {
           </div>
           <div>
             <strong>Creation date: </strong>
-            {user?.created_on}
+            <HumanDate date={user?.created_on} />
           </div>
           <div>
             <strong>Bio: </strong>
