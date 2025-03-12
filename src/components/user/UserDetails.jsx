@@ -36,7 +36,7 @@ const UserDetails = ({ token }) => {
         subscription.author_id === user?.id,
     );
     // Was a relationship found?
-    if (areYouSubscribed != undefined) {
+    if (areYouSubscribed !== undefined) {
       setSubscribed(true);
     }
   }, [subscriptions, user, token]);
@@ -64,7 +64,11 @@ const UserDetails = ({ token }) => {
           </div>
           <div>
             <strong>Creation date: </strong>
-            <HumanDate date={user?.created_on} />
+            {user? 
+            <HumanDate date={user.created_on} />
+              :
+              ""
+            }
           </div>
           <div>
             <strong>Bio: </strong>
