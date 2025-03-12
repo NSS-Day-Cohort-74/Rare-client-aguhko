@@ -44,6 +44,7 @@ export const PostList = ({ token }) => {
     <div key="container">
       <PostFilters
         categories={categories}
+        token={token}
         users={users}
         posts={posts}
         setFilteredPosts={setFilteredPosts}

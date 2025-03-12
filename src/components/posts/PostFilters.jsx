@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const PostFilters = ({ categories, setFilteredPosts, posts, users }) => {
+const PostFilters = ({ categories, setFilteredPosts, posts, users, token }) => {
   const [filters, setFilters] = useState({
     title: "",
     category: "default",
@@ -64,23 +64,27 @@ const PostFilters = ({ categories, setFilteredPosts, posts, users }) => {
           </select>
         </div>
         <div>
-          <select
-            className="ml-3 select"
-            onChange={({ target: { value } }) => {
-              setFilters({ ...filters, author: value });
-            }}
-          >
-            <option key="0" value="default">
-              All Authors...
-            </option>
-            {users.map((user) => {
-              return (
-                <option key={user.id} value={user.id}>
-                  {user.first_name} {user.last_name}
-                </option>
-              );
-            })}
-          </select>
+          {!token ? (
+            <select
+              className="ml-3 select"
+              onChange={({ target: { value } }) => {
+                setFilters({ ...filters, author: value });
+              }}
+            >
+              <option key="0" value="default">
+                All Authors...
+              </option>
+              {users.map((user) => {
+                return (
+                  <option key={user.id} value={user.id}>
+                    {user.first_name} {user.last_name}
+                  </option>
+                );
+              })}
+            </select>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </>
