@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { HumanDate } from "../utils/HumanDate";
+import { getSubscribedPosts } from "../../managers/PostServices";
 
 const SubscribedPosts = ({ token }) => {
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    fetch(`http://localhost:8088/subscribed-posts?subscriber_id=${token}`)
-      .then((posts) => posts.json())
-      .then((p) => setPosts(p));
-  }, [token]);
+useEffect(() => {
+  getSubscribedPosts(token).then((subscribedPostsArray) => setPosts(subscribedPostsArray))
+}, [token])
 
   return (
     <div>

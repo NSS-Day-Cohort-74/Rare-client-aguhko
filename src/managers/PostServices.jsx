@@ -24,3 +24,8 @@ export const deletePost = (postId) => {
 export const getPostsByPostId = (postId) => {
     return fetch(`http://localhost:8088/posts?post_id=${postId}`).then((res) => res.json())
 }
+
+export const getSubscribedPosts = (userId) => {
+    return fetch(`http://localhost:8088/subscribed-posts?subscriber_id=${userId}`)
+    .then((posts) => posts.json())
+}
