@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import Logo from "./rare.jpeg";
 
-export const NavBar = ({ token, setToken }) => {
+export const NavBar = ({ token, setToken, setUser, user }) => {
   const navigate = useNavigate();
   const navbar = useRef();
   const hamburger = useRef();
@@ -76,6 +76,7 @@ export const NavBar = ({ token, setToken }) => {
                   className="button is-outlined"
                   onClick={() => {
                     setToken("");
+                    setUser({ isAdmin: false, token: 0 });
                     navigate("/login");
                   }}
                 >
