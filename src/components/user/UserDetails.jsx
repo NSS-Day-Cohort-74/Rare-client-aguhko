@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getUser } from "../../managers/UserManager";
 import { createNewSubscription, getAllSubscriptions } from "../../managers/Subscriptions";
 
@@ -8,6 +8,7 @@ const UserDetails = ({ token }) => {
   const [subscriptions, setSubscriptions] = useState([]);
   const [subscribed, setSubscribed] = useState(false);
   const { userId } = useParams();
+  const navigate = useNavigate()
 
   useEffect(() => {
     getUser(userId).then((user) => setUser(user));
@@ -43,7 +44,7 @@ const UserDetails = ({ token }) => {
       follower_id: parseInt(token),
       author_id: user?.id
     };
-    createNewSubscription(subscriptionForm).then(fetchSubscriptions);
+    createNewSubscription(subscriptionForm).then(navigate("/"));
   };
 
   return (
