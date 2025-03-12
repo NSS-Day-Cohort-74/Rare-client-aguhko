@@ -63,7 +63,7 @@ export const PostList = ({ token }) => {
       setFilteredPosts(filtered);
     };
     filterHandler();
-  }, [filters.title, filters.category, filters.author]);
+  }, [filters.title, filters.category, filters.author, posts]);
 
   useEffect(() => {
     getAndSetPosts();
