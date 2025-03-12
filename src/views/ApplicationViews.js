@@ -10,6 +10,7 @@ import { PostDetails } from "../components/posts/PostDetails";
 import UserDetails from "../components/user/UserDetails";
 import UserList from "../components/user/UserList";
 import SubscribedPosts from "../components/posts/SubscribedPosts";
+import {PostComments} from "../components/posts/PostComments"
 
 export const ApplicationViews = ({ token, setToken }) => {
   return (
@@ -28,6 +29,7 @@ export const ApplicationViews = ({ token, setToken }) => {
           <Route index element={<PostList />} />
           <Route path=":postId" element={<PostDetails token={token} />} />
         </Route>
+        <Route path="/posts/:postId/comments" element={<PostComments/>} />
         <Route path="/users">
           <Route index element={<UserList token={token} />} />
           <Route path=":userId" element={<UserDetails token={token} />} />\
