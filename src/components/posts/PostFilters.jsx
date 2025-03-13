@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
 
-const PostFilters = ({ categories, setFilteredPosts, posts,tags, users, token }) => {
+const PostFilters = ({
+  categories,
+  setFilteredPosts,
+  posts,
+  tags,
+  users,
+  token,
+}) => {
   const [filters, setFilters] = useState({
     title: "",
     category: "default",
@@ -13,7 +20,7 @@ const PostFilters = ({ categories, setFilteredPosts, posts,tags, users, token })
 
       if (filters.title !== "") {
         filtered = filtered.filter((post) =>
-          post.title.toLowerCase().includes(filters.title.toLowerCase()),
+          post.title.toLowerCase().includes(filters.title.trim().toLowerCase()),
         );
       }
       if (filters.category !== "default") {
@@ -27,9 +34,7 @@ const PostFilters = ({ categories, setFilteredPosts, posts,tags, users, token })
         );
       }
       if (filters.tag !== "default") {
-        filtered = filtered.filter((post) => 
-          post.tags?.includes(filters.tag)
-        )
+        filtered = filtered.filter((post) => post.tags?.includes(filters.tag));
       }
       setFilteredPosts(filtered);
     };
@@ -44,7 +49,7 @@ const PostFilters = ({ categories, setFilteredPosts, posts,tags, users, token })
           placeholder="Filter by title..."
           value={filters.title}
           onChange={({ target: { value } }) => {
-            setFilters({ ...filters, title: value.trim() });
+            setFilters({ ...filters, title: value });
           }}
           className="input"
         />
@@ -79,12 +84,11 @@ const PostFilters = ({ categories, setFilteredPosts, posts,tags, users, token })
             <option key="0" value="default">
               All Tags...
             </option>
-            {tags.map(tag => 
-                <option key={tag.id} value={tag.label}>
-                  {tag.label}
-                </option>
-              )
-            }
+            {tags.map((tag) => (
+              <option key={tag.id} value={tag.label}>
+                {tag.label}
+              </option>
+            ))}
           </select>
         </div>
         <div>
