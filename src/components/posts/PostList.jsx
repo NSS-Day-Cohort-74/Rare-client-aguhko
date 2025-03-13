@@ -3,6 +3,7 @@ import { getAllPosts } from "../../managers/PostManager";
 import { getAllCategories } from "../../managers/CategoryManager";
 import { getPostsByUserId } from "../../managers/PostServices";
 import { getAllUsers } from "../../managers/UserManager";
+import {getAllTags} from "../../managers/TagManager"
 import "../../Rare.css";
 import Post from "./Post";
 import PostFilters from "./PostFilters";
@@ -13,6 +14,8 @@ export const PostList = ({ token }) => {
   const [filteredPosts, setFilteredPosts] = useState(posts);
 
   const [categories, setCategories] = useState([]);
+
+  const [tags, setTags] = useState([])
 
   const [users, setUsers] = useState([]);
 
@@ -30,10 +33,11 @@ export const PostList = ({ token }) => {
     getAllCategories().then((categoriesArray) => {
       setCategories(categoriesArray);
     });
+    getAllTags().then(tags=> setTags(tags))
 
     getAllUsers().then((usersArray) => {
-      setUsers(usersArray);
-    });
+      setUsers(usersArray)
+    })
   }, []);
 
   useEffect(() => {
@@ -46,6 +50,7 @@ export const PostList = ({ token }) => {
         categories={categories}
         token={token}
         users={users}
+        tags={tags}
         posts={posts}
         setFilteredPosts={setFilteredPosts}
       />

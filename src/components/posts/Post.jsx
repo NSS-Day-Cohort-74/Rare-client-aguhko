@@ -44,7 +44,7 @@ const Post = ({ post, categories, users, token, getAndSetPosts }) => {
           </section>
           <footer className="level">
             <div className="ml-4">
-              {postUser?.first_name || "Unknown Author"}
+              {post.author_name || "Unknown Author"}
             </div>
             <div className="is-pulled-right">
               <button
@@ -77,7 +77,7 @@ const Post = ({ post, categories, users, token, getAndSetPosts }) => {
           </section>
           <footer className="level">
             <div className="ml-4">Author</div>
-            <div>{postUser?.first_name || "Unknown Author"}</div>
+            <div>{post.author_name || "Unknown Author"}</div>
           </footer>
         </div>
       )}
