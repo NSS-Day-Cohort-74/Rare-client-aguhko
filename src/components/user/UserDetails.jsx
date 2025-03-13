@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getUser } from "../../managers/UserManager";
-import { createNewSubscription, getAllSubscriptions } from "../../managers/Subscriptions";
+import {
+  createNewSubscription,
+  getAllSubscriptions,
+} from "../../managers/Subscriptions";
 
 const UserDetails = ({ token }) => {
   const [user, setUser] = useState();
   const [subscriptions, setSubscriptions] = useState([]);
   const [subscribed, setSubscribed] = useState(false);
   const { userId } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUser(userId).then((user) => setUser(user));
@@ -16,24 +19,23 @@ const UserDetails = ({ token }) => {
 
   const fetchSubscriptions = () => {
     getAllSubscriptions().then((subscriptionsArray) =>
-      setSubscriptions(subscriptionsArray)
-  );
-}
+      setSubscriptions(subscriptionsArray),
+    );
+  };
 
   useEffect(() => {
-    fetchSubscriptions()
-  }, [])
-
+    fetchSubscriptions();
+  }, []);
 
   useEffect(() => {
     // Does the current user have a relationship with the user they are viewing?
     const areYouSubscribed = subscriptions.find(
       (subscription) =>
         subscription.follower_id === parseInt(token) &&
-        subscription.author_id === user?.id
+        subscription.author_id === user?.id,
     );
     // Was a relationship found?
-    if (areYouSubscribed != undefined) {
+    if (areYouSubscribed !== undefined) {
       setSubscribed(true);
     }
   }, [subscriptions, user, token]);
@@ -42,7 +44,7 @@ const UserDetails = ({ token }) => {
     // The unique id associated with a user is the id of their subscribe/unsubscribed button
     const subscriptionForm = {
       follower_id: parseInt(token),
-      author_id: user?.id
+      author_id: user?.id,
     };
     createNewSubscription(subscriptionForm).then(navigate("/"));
   };
@@ -92,7 +94,7 @@ const UserDetails = ({ token }) => {
           <div className="card-content">
             <strong>Profile Image: </strong>
             <figure className="image is-128x128 has-margin-right-5">
-              <img src={user?.profile_image_url} alt="Profile Image" />
+              <img src={user?.profile_image_url} alt="" />
             </figure>
           </div>
         </div>
