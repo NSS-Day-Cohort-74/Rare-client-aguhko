@@ -7,6 +7,7 @@ import {
 } from "../../managers/Subscriptions";
 import { HumanDate } from "../../components/utils/HumanDate";
 
+
 const UserDetails = ({ token }) => {
   const [user, setUser] = useState();
   const [subscriptions, setSubscriptions] = useState([]);
@@ -99,7 +100,7 @@ const UserDetails = ({ token }) => {
           <div className="card-content">
             <strong>Profile Image: </strong>
             <figure className="image is-128x128 has-margin-right-5">
-              <img src={user?.profile_image_url} alt="Profile Image" />
+              <img src={user?.profile_image_url} alt="" />
             </figure>
           </div>
         </div>
