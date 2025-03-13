@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { PostPost } from "../../managers/PostServices";
 import { getAllCategories } from "../../managers/CategoryManager";
 
-import { useNavigate } from "react-router-dom"
-export const CreateAPost = ({ token }) => {
-  const navigate = useNavigate()
+export const CreateAPost = ({ token, user }) => {
+  const navigate = useNavigate();
   const [publishDisabled, setPublishDisabled] = useState(true);
   const [allCategories, setAllCategories] = useState([]);
   const userId = parseInt(token);
+
+  const isAdmin = user.isAdmin;
 
   const [newPost, setNewPost] = useState({
     user_id: userId,
@@ -16,7 +19,7 @@ export const CreateAPost = ({ token }) => {
     publication_date: new Date(),
     image_url: "",
     content: "",
-    approved: true,
+    approved: isAdmin,
   });
 
   useEffect(() => {

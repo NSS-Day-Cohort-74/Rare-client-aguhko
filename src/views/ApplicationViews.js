@@ -12,17 +12,23 @@ import UserList from "../components/user/UserList";
 import SubscribedPosts from "../components/posts/SubscribedPosts";
 import {PostComments} from "../components/posts/PostComments"
 
-export const ApplicationViews = ({ token, setToken }) => {
+export const ApplicationViews = ({ token, setToken, user, setUser }) => {
   return (
     <Routes>
-      <Route path="/login" element={<Login setToken={setToken} />} />
+      <Route
+        path="/login"
+        element={<Login setToken={setToken} setUser={setUser} />}
+      />
       <Route path="/register" element={<Register setToken={setToken} />} />
       <Route element={<Authorized token={token} />}>
         {/* Add Routes here */}
         <Route path="/" />
         <Route index element={<SubscribedPosts token={token} />} />
         <Route path="/my-posts" element={<PostList token={token} />} />
-        <Route path="/create" element={<CreateAPost token={token} />} />
+        <Route
+          path="/create"
+          element={<CreateAPost token={token} user={user} />}
+        />
         <Route path="/tags" element={<TagList token={token} />} />
         <Route path="/categories" element={<CategoryList token={token} />} />
         <Route path="posts">
