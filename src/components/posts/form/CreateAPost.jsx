@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { PostPost } from "../../managers/PostServices";
-import { getAllCategories } from "../../managers/CategoryManager";
+import { PostPost } from "../../../managers/PostServices";
+import { getAllCategories } from "../../../managers/CategoryManager";
 
 export const CreateAPost = ({ token, user }) => {
   const navigate = useNavigate();

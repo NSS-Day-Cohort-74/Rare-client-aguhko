@@ -31,17 +31,24 @@ export const PostDetails = ({ token }) => {
             <h2 className="content is-size-5 has-text-left title ">
               By {post?.full_name}
             </h2>
-            <p className="content is-size-5">{post?.post_content}</p>
+            <p className="content is-size-5">{post?.content}</p>
             <div>
               {post.tags
                 ? post.tags.map((tag) => (
-                    <span className="tag is-warning m-2">{tag}</span>
+                    <span key={tag} className="tag is-warning m-2">
+                      {tag}
+                    </span>
                   ))
                 : ""}
             </div>
             <div>
+              <Link to={`/posts/${postId}/comments/new`}>
+                <button className="button m-2">Add Comment</button>
+              </Link>
+            </div>
+            <div>
               <Link to={`/posts/${postId}/comments`}>
-                <button className="button">View Comments</button>
+                <button className="button m-2">View Comments</button>
               </Link>
             </div>
           </div>
