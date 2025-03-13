@@ -5,6 +5,8 @@ import {
   createNewSubscription,
   getAllSubscriptions,
 } from "../../managers/Subscriptions";
+import { HumanDate } from "../../components/utils/HumanDate";
+
 
 const UserDetails = ({ token }) => {
   const [user, setUser] = useState();
@@ -63,7 +65,11 @@ const UserDetails = ({ token }) => {
           </div>
           <div>
             <strong>Creation date: </strong>
-            {user?.created_on}
+            {user? 
+            <HumanDate date={user.created_on} />
+              :
+              ""
+            }
           </div>
           <div>
             <strong>Bio: </strong>
