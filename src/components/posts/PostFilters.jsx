@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 
-const PostFilters = ({ categories, setFilteredPosts, posts, users, token }) => {
+const PostFilters = ({ categories, setFilteredPosts, posts,tags, users, token }) => {
   const [filters, setFilters] = useState({
     title: "",
     category: "default",
+    tag: "default",
     author: "default",
   });
   useEffect(() => {
@@ -25,10 +26,15 @@ const PostFilters = ({ categories, setFilteredPosts, posts, users, token }) => {
           (post) => post.user_id === parseInt(filters.author),
         );
       }
+      if (filters.tag !== "default") {
+        filtered = filtered.filter((post) => 
+          post.tags?.includes(filters.tag)
+        )
+      }
       setFilteredPosts(filtered);
     };
     filterHandler();
-  }, [filters.title, filters.category, filters.author, posts]);
+  }, [filters.title, filters.category, filters.author, filters.tag, posts]);
 
   return (
     <>
@@ -61,6 +67,24 @@ const PostFilters = ({ categories, setFilteredPosts, posts, users, token }) => {
                 </option>
               );
             })}
+          </select>
+        </div>
+        <div>
+          <select
+            className="ml-3 select"
+            onChange={({ target: { value } }) => {
+              setFilters({ ...filters, tag: value });
+            }}
+          >
+            <option key="0" value="default">
+              All Tags...
+            </option>
+            {tags.map(tag => 
+                <option key={tag.id} value={tag.label}>
+                  {tag.label}
+                </option>
+              )
+            }
           </select>
         </div>
         <div>
