@@ -9,10 +9,10 @@ export const PostDetails = ({ token }) => {
   const [post, setPost] = useState({});
 
   useEffect(() => {
-    getPostsByPostId(parseInt(postId)).then((postObj) => {
+    getPostsByPostId(postId).then((postObj) => {
       setPost(postObj);
     });
-  }, [token, postId]);
+  }, [postId]);
 
   return (
     <section className="section">

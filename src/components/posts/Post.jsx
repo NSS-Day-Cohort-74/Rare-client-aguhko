@@ -12,7 +12,7 @@ const Post = ({ post, categories, users, token, getAndSetPosts }) => {
       "Are you sure that you want to delete this post?",
     );
     if (deleteConfirmation) {
-      deletePost(parseInt(event.target.id)).then(getAndSetPosts);
+      deletePost(parseInt(event.target.id)).then(()=>getAndSetPosts());
     } else {
       window.alert("Your post was not deleted!");
     }

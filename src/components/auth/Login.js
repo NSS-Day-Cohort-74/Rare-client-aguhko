@@ -18,7 +18,7 @@ export const Login = ({ setToken, setUser }) => {
 
     loginUser(user).then((res) => {
       if ("valid" in res && res.valid) {
-        setUser(res.auth);
+        setUser(res.auth)
         setToken(res.auth.token);
         navigate("/");
       } else {

@@ -10,19 +10,18 @@ export const CreateAPost = ({ token, user }) => {
   const [allCategories, setAllCategories] = useState([]);
   const userId = parseInt(token);
 
-  const currUser = JSON.parse(user);
-
-  const [newPost, setNewPost] = useState({
-    user_id: userId,
-    category_id: 0,
-    title: "",
-    publication_date: new Date(),
-    image_url: "",
-    content: "",
-    approved: currUser.isAdmin,
-  });
-
-  useEffect(() => {
+    
+    const [newPost, setNewPost] = useState({
+      user_id: userId,
+      category_id: 0,
+      title: "",
+      publication_date: new Date(),
+      image_url: "",
+      content: "",
+      approved: user.isAdmin,
+    });
+    
+    useEffect(() => {
     getAllCategories().then((res) => setAllCategories(res));
   }, []);
 
@@ -41,7 +40,7 @@ export const CreateAPost = ({ token, user }) => {
     if (userId !== 0 && newPost.content) {
       PostPost({
         ...newPost,
-      }).then((createdPost) => navigate(`/posts/${createdPost.id}`));
+      }).then((createdPostId) => navigate(`/posts/${createdPostId}`));
     }
   };
 

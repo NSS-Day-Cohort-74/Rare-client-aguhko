@@ -16,7 +16,6 @@ export const getPostsByUserId = (userId) => {
 }
 
 export const deletePost = (postId) => {
-    console.log(postId)
     return fetch(`http://localhost:8088/posts/${postId}`, {
         method: "DELETE"
     })
