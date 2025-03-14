@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getPostsByPostId } from "../../managers/PostServices";
+import { HumanDate } from "../utils/HumanDate";
 
 export const PostDetails = ({ token }) => {
   const { postId } = useParams();
@@ -17,7 +18,7 @@ export const PostDetails = ({ token }) => {
     <section className="section">
       <div className="container">
         <div>{post?.category_name}</div>
-        <div>{post?.publication_date}</div>
+        <HumanDate date={post?.publication_date?.split("T")[0]} />
         <div className="columns is-centered">
           <div className="column is-half">
             <h1 className="title is-2 has-text-centered">{post?.title}</h1>
