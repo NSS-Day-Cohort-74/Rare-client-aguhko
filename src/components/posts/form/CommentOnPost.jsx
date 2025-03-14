@@ -35,7 +35,7 @@ const CommentOnPost = ({ token }) => {
               }}
               placeholder="Write your comment here..."
               required
-            ></textarea>
+            />
           </div>
         </div>
         <div className="control">
