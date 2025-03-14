@@ -12,3 +12,13 @@ export const createNewSubscription = (subscriptionToCreate) => {
         body: JSON.stringify(subscriptionToCreate)
     })
 }
+export const deleteSubscription = (subscriptionDeleteForm) => {
+    return fetch("http://localhost:8088/subscriptions", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+        },
+        body: JSON.stringify(subscriptionDeleteForm)
+    })
+}
