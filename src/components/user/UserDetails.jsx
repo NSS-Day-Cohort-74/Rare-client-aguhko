@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getUser } from "../../managers/UserManager";
 import {
   createNewSubscription,
+  deleteSubscription,
   getAllSubscriptions,
 } from "../../managers/Subscriptions";
 import { HumanDate } from "../../components/utils/HumanDate";
@@ -40,7 +41,7 @@ const UserDetails = ({ token }) => {
     if (areYouSubscribed !== undefined) {
       setSubscribed(true);
     }
-  }, [subscriptions, user, token]);
+  }, [subscriptions, user, token]); 
 
   const handleSubscription = (event) => {
     // The unique id associated with a user is the id of their subscribe/unsubscribed button
@@ -50,6 +51,14 @@ const UserDetails = ({ token }) => {
     };
     createNewSubscription(subscriptionForm).then(() => navigate("/"));
   };
+  const handleUnsub = () => {
+    const subscriptionForm = {
+      follower_id: parseInt(token),
+      author_id: user?.id,
+    };
+    deleteSubscription(subscriptionForm).then(() => {setSubscribed(false)})
+    
+  }
 
   return (
     <div className="columns is-vcentered">
@@ -84,10 +93,10 @@ const UserDetails = ({ token }) => {
             <>
               {subscribed ? (
                 // They are subscribed to the user they are viewing
-                <button id={user?.id}>Unsubscribe</button>
+                <button className="button is-danger is-small is-pulled-right" id={user?.id} onClick={handleUnsub}>Unsubscribe</button>
               ) : (
                 // They are not subscribed to the user they are viewing
-                <button id={user?.id} onClick={handleSubscription}>
+                <button className="button is-primary is-small is-pulled-right" id={user?.id} onClick={handleSubscription}>
                   Subscribe!
                 </button>
               )}
