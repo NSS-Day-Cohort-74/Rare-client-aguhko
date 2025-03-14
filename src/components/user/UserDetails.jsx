@@ -48,7 +48,7 @@ const UserDetails = ({ token }) => {
       follower_id: parseInt(token),
       author_id: user?.id,
     };
-    createNewSubscription(subscriptionForm).then(navigate("/"));
+    createNewSubscription(subscriptionForm).then(() => navigate("/"));
   };
 
   return (
