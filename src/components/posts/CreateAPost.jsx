@@ -10,7 +10,7 @@ export const CreateAPost = ({ token, user }) => {
   const [allCategories, setAllCategories] = useState([]);
   const userId = parseInt(token);
 
-  const isAdmin = user.isAdmin;
+  const currUser = JSON.parse(user);
 
   const [newPost, setNewPost] = useState({
     user_id: userId,
@@ -19,7 +19,7 @@ export const CreateAPost = ({ token, user }) => {
     publication_date: new Date(),
     image_url: "",
     content: "",
-    approved: isAdmin,
+    approved: currUser.isAdmin,
   });
 
   useEffect(() => {
