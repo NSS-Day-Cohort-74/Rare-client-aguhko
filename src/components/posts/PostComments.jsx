@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getAllComments } from "../../managers/CommentManager";
+import { deleteComment, getAllComments } from "../../managers/CommentManager";
 
-export const PostComments = () => {
+export const PostComments = ({ token }) => {
   const { postId } = useParams();
   const [comments, setComments] = useState([]);
 
