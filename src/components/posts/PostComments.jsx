@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getAllComments } from "../../managers/CommentManager";
 
 export const PostComments = () => {
@@ -11,6 +11,7 @@ export const PostComments = () => {
       setComments(commentObj);
     });
   }, []);
+
   let relatedComments = comments
     .filter((comment) => comment.post_id === parseInt(postId))
     .reverse();
@@ -20,6 +21,11 @@ export const PostComments = () => {
         <div className="columns is-centered">
           <div className="column is-half">
             <h2 className="title is-4">Comments</h2>
+            <div>
+              <Link to={`/posts/${postId}/comments/new`}>
+                <button className="button m-2">Add Comment</button>
+              </Link>
+            </div>
 
             {relatedComments.length > 0 ? (
               relatedComments.map((comment) => (
@@ -43,4 +49,3 @@ export const PostComments = () => {
     </section>
   );
 };
-
